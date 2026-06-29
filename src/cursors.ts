@@ -1,10 +1,11 @@
 // The drawable cursor art catalog.
 //
-// Every cursor is drawn in a 24x24 space (BASE) as a filled glyph (white body +
-// dark outline, with a white halo so it stays legible over any photo) or, for
-// fine reticles, a "dual stroke" line (white halo under a dark core). Art is
-// stored as INNER markup so it can be rendered at any pixel size — see
-// buildCursorSvg and the per-cursor scale in presets.ts.
+// Every cursor is drawn in a 24x24 space (BASE), white with a thin black outline
+// like a native OS cursor — the white fill reads on dark areas, the black outline
+// reads on light ones. Filled glyphs are white fill + outline; fine reticles are
+// a white stroke over a slightly wider black one. Art is stored as INNER markup
+// so it can be rendered at any pixel size — see buildCursorSvg and the per-cursor
+// scale in presets.ts.
 //
 // This is original art styled after the general photo-editor idiom — NOT copied
 // from any app's proprietary cursors. Pan hands are offered but the OS hand stays
@@ -45,23 +46,22 @@ export function buildCursorSvg(inner: string, size: number): string {
 }
 
 // ── Drawing helpers ─────────────────────────────────────────────────────────
-// Filled glyph: a white-haloed white body with a dark outline (reads on any bg).
-function halo(shape: string): string {
-  return `<g fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${shape}</g>`;
-}
-function body(shape: string, w = 1.4): string {
+// Filled glyph: white body with a thin dark outline (no halo) — native-cursor look.
+function filled(shape: string, w = 1.3): string {
   return `<g fill="#fff" stroke="#111" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round">${shape}</g>`;
 }
-function filled(shape: string, w = 1.4): string {
-  return halo(shape) + body(shape, w);
-}
-/** Line art: a white halo under a dark core — for crosshairs / reticles. */
-function lines(paths: string, h = 3, c = 1.4): string {
+/** Line art (crosshairs / reticles): a white stroke with a black outline — a wider
+ *  black stroke under a narrower white core, so lines read white-with-outline. */
+function lines(paths: string, outline = 3, coreW = 1.6): string {
   return (
     `<g fill="none" stroke-linecap="round" stroke-linejoin="round">` +
-    `<g stroke="#fff" stroke-width="${h}">${paths}</g>` +
-    `<g stroke="#111" stroke-width="${c}">${paths}</g></g>`
+    `<g stroke="#111" stroke-width="${outline}">${paths}</g>` +
+    `<g stroke="#fff" stroke-width="${coreW}">${paths}</g></g>`
   );
+}
+/** Plain dark detail strokes drawn on a white face (e.g. the loupe grid). */
+function detail(paths: string, w = 0.8): string {
+  return `<g fill="none" stroke="#111" stroke-width="${w}" stroke-linecap="round">${paths}</g>`;
 }
 
 // Eyedropper: a fat rounded bulb, thin barrel and fine tip, rotated to point
@@ -92,9 +92,9 @@ export const ART: Record<string, ArtDef> = {
     hotspotY: 10,
     roles: ["pick"],
     inner:
-      lines(`<path d="M14.5 14.5 L20 20"/>`, 3.6, 2.6) +
+      lines(`<path d="M14.5 14.5 L20 20"/>`, 3.6, 2.4) +
       filled(`<rect x="3.5" y="3.5" width="12" height="12" rx="2.6"/>`) +
-      lines(`<path d="M7.3 4.2V14.8"/><path d="M11.5 4.2V14.8"/><path d="M4.2 7.3H14.8"/><path d="M4.2 11.5H14.8"/>`, 0, 0.7),
+      detail(`<path d="M7.3 4.2V14.8"/><path d="M11.5 4.2V14.8"/><path d="M4.2 7.3H14.8"/><path d="M4.2 11.5H14.8"/>`, 0.7),
   },
 
   // Zoom ────────────────────────────────────────────────────────────────────────
@@ -127,8 +127,8 @@ export const ART: Record<string, ArtDef> = {
     hotspotY: 12,
     roles: ["pick", "crosshair", "crop-move"],
     inner:
-      lines(`<path d="M12 2V9"/><path d="M12 15V22"/><path d="M2 12H9"/><path d="M15 12H22"/>`, 3, 1.4) +
-      `<circle cx="12" cy="12" r="1.7" fill="#fff"/><circle cx="12" cy="12" r="0.95" fill="#111"/>`,
+      lines(`<path d="M12 2V9"/><path d="M12 15V22"/><path d="M2 12H9"/><path d="M15 12H22"/>`, 3, 1.6) +
+      `<circle cx="12" cy="12" r="1.6" fill="#fff" stroke="#111" stroke-width="0.7"/>`,
   },
   reticle: {
     label: "Target ring",

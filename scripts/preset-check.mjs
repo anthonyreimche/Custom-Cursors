@@ -26,7 +26,7 @@ const kept = P.parseConfig(JSON.stringify({ version: P.CONFIG_VERSION, defaultSc
 assert(Math.abs(kept.defaultScale - 0.9) < 1e-9, "v2 explicit default preserved");
 
 cfg = P.applyPreset(cfg, "safelight");
-assert(P.resolvedChoice("pick", cfg) === "dropper", "default pick art");
+assert(P.resolvedChoice("pick", cfg) === "reticle", "default pick art");
 
 cfg = { ...cfg, overrides: { ...cfg.overrides, pick: "loupe" }, scales: { ...cfg.scales, pick: 1.2 } };
 assert(P.resolvedChoice("pick", cfg) === "loupe", "per-role override wins");

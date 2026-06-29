@@ -5,17 +5,14 @@ function buildCursorSvg(inner, size) {
   const s = Math.max(1, Math.round(size));
   return `<svg ${NS} width="${s}" height="${s}" viewBox="0 0 ${BASE} ${BASE}">${inner}</svg>`;
 }
-function halo(shape) {
-  return `<g fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${shape}</g>`;
-}
-function body(shape, w = 1.4) {
+function filled(shape, w = 1.3) {
   return `<g fill="#fff" stroke="#111" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round">${shape}</g>`;
 }
-function filled(shape, w = 1.4) {
-  return halo(shape) + body(shape, w);
+function lines(paths, outline = 3, coreW = 1.6) {
+  return `<g fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#111" stroke-width="${outline}">${paths}</g><g stroke="#fff" stroke-width="${coreW}">${paths}</g></g>`;
 }
-function lines(paths, h2 = 3, c = 1.4) {
-  return `<g fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#fff" stroke-width="${h2}">${paths}</g><g stroke="#111" stroke-width="${c}">${paths}</g></g>`;
+function detail(paths, w = 0.8) {
+  return `<g fill="none" stroke="#111" stroke-width="${w}" stroke-linecap="round">${paths}</g>`;
 }
 var DROP = '<rect x="8.6" y="2" width="6.8" height="4.8" rx="2.2"/><rect x="10.6" y="6.2" width="2.8" height="9.2" rx="1"/><path d="M10.6 14.8 L12 19.8 L13.4 14.8 Z"/>';
 var DROPPER = `<g transform="rotate(45 12 12)">${filled(DROP)}</g>`;
@@ -41,7 +38,7 @@ var ART = {
     hotspotX: 10,
     hotspotY: 10,
     roles: ["pick"],
-    inner: lines(`<path d="M14.5 14.5 L20 20"/>`, 3.6, 2.6) + filled(`<rect x="3.5" y="3.5" width="12" height="12" rx="2.6"/>`) + lines(`<path d="M7.3 4.2V14.8"/><path d="M11.5 4.2V14.8"/><path d="M4.2 7.3H14.8"/><path d="M4.2 11.5H14.8"/>`, 0, 0.7)
+    inner: lines(`<path d="M14.5 14.5 L20 20"/>`, 3.6, 2.4) + filled(`<rect x="3.5" y="3.5" width="12" height="12" rx="2.6"/>`) + detail(`<path d="M7.3 4.2V14.8"/><path d="M11.5 4.2V14.8"/><path d="M4.2 7.3H14.8"/><path d="M4.2 11.5H14.8"/>`, 0.7)
   },
   // Zoom ────────────────────────────────────────────────────────────────────────
   "magnifier-plus": {
@@ -71,7 +68,7 @@ var ART = {
     hotspotX: 12,
     hotspotY: 12,
     roles: ["pick", "crosshair", "crop-move"],
-    inner: lines(`<path d="M12 2V9"/><path d="M12 15V22"/><path d="M2 12H9"/><path d="M15 12H22"/>`, 3, 1.4) + `<circle cx="12" cy="12" r="1.7" fill="#fff"/><circle cx="12" cy="12" r="0.95" fill="#111"/>`
+    inner: lines(`<path d="M12 2V9"/><path d="M12 15V22"/><path d="M2 12H9"/><path d="M15 12H22"/>`, 3, 1.6) + `<circle cx="12" cy="12" r="1.6" fill="#fff" stroke="#111" stroke-width="0.7"/>`
   },
   reticle: {
     label: "Target ring",
@@ -184,8 +181,8 @@ var PRESETS = [
   {
     id: "safelight",
     label: "Default",
-    description: "A clean eyedropper, magnifier zoom, crosshair and move \u2014 the recommended set.",
-    map: { pick: "dropper", "zoom-in": "magnifier-plus", "zoom-out": "magnifier-minus", crosshair: "crosshair-thin", "crop-move": "move" }
+    description: "Target-ring picker, magnifier zoom, crosshair and move \u2014 the recommended set.",
+    map: { pick: "reticle", "zoom-in": "magnifier-plus", "zoom-out": "magnifier-minus", crosshair: "crosshair-thin", "crop-move": "move" }
   }
 ];
 var PRESET_IDS = PRESETS.map((p) => p.id);

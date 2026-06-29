@@ -94,8 +94,8 @@ export const PRESETS: Preset[] = [
   {
     id: "safelight",
     label: "Default",
-    description: "A clean eyedropper, magnifier zoom, crosshair and move — the recommended set.",
-    map: { pick: "dropper", "zoom-in": "magnifier-plus", "zoom-out": "magnifier-minus", crosshair: "crosshair-thin", "crop-move": "move" },
+    description: "Target-ring picker, magnifier zoom, crosshair and move — the recommended set.",
+    map: { pick: "reticle", "zoom-in": "magnifier-plus", "zoom-out": "magnifier-minus", crosshair: "crosshair-thin", "crop-move": "move" },
   },
 ];
 

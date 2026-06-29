@@ -15,16 +15,17 @@ and resize arrows at any display scaling — but you can override those too.
 
 ## Presets
 
-| Preset | Picker | Modelled on |
-| --- | --- | --- |
-| **Safelight** (default) | Sample ring | The shipped cursors |
-| **Classic** | Eyedropper + sampling ring | Photoshop / GIMP |
-| **Loupe Pro** | Eyedropper + magnified pixel-grid loupe | Lightroom / Affinity Photo |
-| **Precise** | Crosshair with a centre dot | Technical / minimal |
-| **Open-source RAW** | High-contrast plain eyedropper | darktable / RawTherapee |
+The extension ships a single built-in **Default** preset (a clean eyedropper,
+magnifier zoom, crosshair and move). Beyond that, **you make your own**: save the
+current cursors as a named preset, rename / update / delete it, and
+**import / export** presets as JSON to share or back up. (The built-in Default is
+read-only; your saved presets aren't.)
 
-Each preset also swaps the matching zoom, crosshair and move cursors so the set
-feels coherent.
+There are deliberately no "Photoshop" / "Lightroom" / "Capture One" / "darktable"
+presets: those apps' real cursors are proprietary (Adobe, Capture One) or
+GPL-licensed (RawTherapee / GIMP) and can't be shipped here, and we won't pass off
+look-alikes as the real thing. The art below is original, styled after the general
+photo-editor idiom.
 
 ## Per-cursor overrides
 
@@ -32,15 +33,19 @@ Under the preset picker, each cursor has its own dropdown:
 
 - **From preset** — follow whatever the chosen preset uses (the default).
 - **System default** — Safelight's built-in cursor for that role.
-- A **named icon** — any art that suits that cursor (e.g. the picker offers all
-  five eyedropper styles).
+- A **named icon** — any art that suits that cursor (the picker offers the
+  eyedropper, add/subtract droppers, loupe, crosshair and target).
 - **Custom SVG…** — paste your own SVG and set its hotspot (the active click
-  point, in the SVG's own pixel coordinates). Keep it small (≤ 32×32 renders
-  best) and give it a white halo under a dark core so it stays visible on any
-  photo.
+  point, in the SVG's own pixel coordinates). Give it a white halo under a dark
+  core so it stays visible on any photo.
 
-Changes apply instantly. "Reset overrides" clears every per-cursor change while
-keeping the selected preset.
+Each cursor also has a **size** (a percentage of the 24px art). There's a global
+**Default cursor size** (60% by default, so cursors sit at a small native scale
+rather than oversized), and any single cursor can override it. Native pan/resize
+cursors are sized by the OS, so their size control is disabled.
+
+Changes apply instantly. "Reset tweaks" clears every per-cursor override, custom
+SVG and size while keeping the selected preset and the default size.
 
 ## How it works
 
@@ -49,6 +54,10 @@ Safelight resolves canvas cursors through named **tokens** (`pick`, `zoom-in`,
 token ids with its own images through `api.registerCursor`, so the new cursors
 appear everywhere the core uses them — no core hooks required. The whole config
 lives in one persisted setting and is re-applied on load and on change.
+
+The cursor **names** shown in the Preferences tab come from the core
+(`api.cursors.labels`), so they always match the app's own wording — the
+extension supplies the icon, not the name.
 
 When the extension is disabled or uninstalled, Safelight restores its built-in
 defaults for every token that was overridden.
@@ -60,8 +69,10 @@ npm install
 npm run build      # bundles to dist/index.js (committed; the store fetches as-is)
 npm run typecheck  # tsc, no emit
 npm run smoke      # server-renders the Preferences panel across all presets
+npm run check      # asserts the preset CRUD / import-export / scale logic
 npm run contact    # writes contact.html — a visual sheet of every cursor + hotspot
-npm run verify     # typecheck + smoke + build
+npm run render-prefs # writes prefs.html — the Preferences tab with a theme shim
+npm run verify     # typecheck + check + smoke + build
 ```
 
 React is provided by the host at runtime via `api.react`, so it is never bundled.

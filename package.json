@@ -1,7 +1,7 @@
 {
   "name": "safelight-custom-cursors",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom cursor presets and per-cursor overrides for Safelight.",
   "type": "module",
   "scripts": {
@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "contact": "node scripts/contact.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "verify": "npm run typecheck && npm run smoke && npm run build"
+    "check": "node scripts/preset-check.mjs",
+    "render-prefs": "node scripts/render-prefs.mjs",
+    "verify": "npm run typecheck && npm run check && npm run smoke && npm run build"
   },
   "keywords": ["safelight-extension"],
   "license": "MIT",

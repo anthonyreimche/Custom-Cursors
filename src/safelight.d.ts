@@ -54,9 +54,34 @@ export interface SafelightAPI {
     /** Open Preferences focused on an extension's section. */
     open(extensionId: string): void;
   };
+  /** Canonical display names for the built-in cursor tokens, keyed by token id
+   *  ("pick", "zoom-in", "crop-move", …). Read these for UI labels so they match
+   *  the app. Optional: absent on app builds older than this API. */
+  cursors?: { labels: Record<string, string> };
   /** { Panel, Slider, Histogram, CurveEditor, Rating, Thumbnail }. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   components: Record<string, ComponentType>;
+  /** Shared theme-styled UI primitives — Button, Select, NumberInput, TextInput,
+   *  TextArea, Toggle, SegmentedControl, Field, Section, Card, Badge, ProgressBar,
+   *  Row, Stack — plus `tokens` (canonical CSS-var strings). Prefer these over
+   *  hand-rolled inline-styled controls. Optional: absent on older app builds. */
+  ui?: {
+    Button: ComponentType;
+    Select: ComponentType;
+    TextInput: ComponentType;
+    NumberInput: ComponentType;
+    TextArea: ComponentType;
+    Toggle: ComponentType;
+    SegmentedControl: ComponentType;
+    Field: ComponentType;
+    Section: ComponentType;
+    Card: ComponentType;
+    Badge: ComponentType;
+    ProgressBar: ComponentType;
+    Row: ComponentType;
+    Stack: ComponentType;
+    tokens: Record<string, string>;
+  };
   /** { useDevelopStore, useCatalogStore, useUIStore, … }. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   stores: Record<string, any>;

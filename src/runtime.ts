@@ -2,7 +2,8 @@
 // helpers used by both the entry point and the preferences UI.
 
 import type { SafelightAPI } from "./safelight";
-import { parseConfig, resolveAll, type Config } from "./presets";
+import { parseConfig, resolveAll, FALLBACK_LABELS, type Config } from "./presets";
+import type { CursorRole } from "./cursors";
 
 // Assigned once in activate(), before any cursor is applied or any UI renders.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,6 +23,25 @@ export function initRuntime(_api: SafelightAPI): void {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function h(type: any, props?: any, ...children: any[]): any {
   return React.createElement(type, props, ...children);
+}
+
+/** A cursor's display name, sourced from the core (api.cursors.labels) so it
+ *  matches the rest of the app; falls back to our own copy on older app builds. */
+export function cursorLabel(role: CursorRole): string {
+  return api?.cursors?.labels?.[role] ?? FALLBACK_LABELS[role] ?? role;
+}
+
+/** Whether the host ships the shared UI kit. Cursor application works without it;
+ *  only the Preferences panel needs it. */
+export function hasUi(): boolean {
+  return !!api?.ui;
+}
+
+/** The shared UI kit (Button, Select, Field, …). Only call once hasUi() is true. */
+export function getUi(): NonNullable<SafelightAPI["ui"]> {
+  const ui = api.ui;
+  if (!ui) throw new Error("Custom Cursors requires a newer Safelight build (api.ui).");
+  return ui;
 }
 
 export function getConfig(): Config {

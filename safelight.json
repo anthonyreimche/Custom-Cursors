@@ -9,5 +9,5 @@
   "categories": ["Interface", "Develop"],
   "keywords": ["cursor", "cursors", "pointer", "eyedropper", "picker", "crosshair", "theme", "accessibility"],
   "repository": "anthonyreimche/Custom-Cursors",
-  "minAppVersion": "2.3.0"
+  "minAppVersion": "2.4.3"
 }

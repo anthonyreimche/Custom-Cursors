@@ -1,0 +1,13 @@
+{
+  "id": "com.safelight.custom-cursors",
+  "name": "Custom Cursors",
+  "version": "1.0.0",
+  "description": "Cursor presets (Classic, Loupe Pro, Precise, Open-source RAW) plus per-cursor overrides and your own SVG — restyle Safelight's colour picker, zoom, crosshair and crop cursors.",
+  "author": "Anthony",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "categories": ["Interface", "Develop"],
+  "keywords": ["cursor", "cursors", "pointer", "eyedropper", "picker", "crosshair", "theme", "accessibility"],
+  "repository": "anthonyreimche/Custom-Cursors",
+  "minAppVersion": "2.3.0"
+}

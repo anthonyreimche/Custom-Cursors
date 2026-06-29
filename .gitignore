@@ -1,0 +1,9 @@
+node_modules/
+*.log
+.DS_Store
+
+# dev-script outputs (contact sheet / smoke bundle)
+contact.html
+*.bundle.mjs
+*.bundle.cjs
+*.png

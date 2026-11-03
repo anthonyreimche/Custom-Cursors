@@ -83,6 +83,6 @@ Extensions ▸ Dev ▸ Choose folder… and point it at this folder, then ↻ Re
 row after each `npm run build`. The Preferences tab appears under
 Settings ▸ Extensions ▸ Custom Cursors.
 
-## License
+## Licence
 
 MIT — see [LICENSE](LICENSE).

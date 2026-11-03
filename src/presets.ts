@@ -389,7 +389,7 @@ export function deletePreset(config: Config, id: string): Config {
 // ── Import / export ─────────────────────────────────────────────────────────────
 const EXPORT_TAG = "safelightCursorPresets";
 
-/** Serialise presets to a shareable JSON string. */
+/** Serialize presets to a shareable JSON string. */
 export function exportPresets(presets: UserPreset[]): string {
   return JSON.stringify({ [EXPORT_TAG]: 1, presets }, null, 2);
 }

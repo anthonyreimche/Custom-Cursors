@@ -1,7 +1,7 @@
 {
   "name": "safelight-custom-cursors",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Custom cursor presets and per-cursor overrides for Safelight.",
   "type": "module",
   "scripts": {

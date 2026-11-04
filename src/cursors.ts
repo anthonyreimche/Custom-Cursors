@@ -1,4 +1,4 @@
-// The drawable cursor art catalog.
+// The drawable cursor art catalogue.
 //
 // Every cursor is drawn in a 24x24 space (BASE), white with a thin black outline
 // like a native OS cursor — the white fill reads on dark areas, the black outline

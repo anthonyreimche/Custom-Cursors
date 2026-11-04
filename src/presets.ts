@@ -3,7 +3,7 @@
 // delete) and import/export.
 //
 // A "role" is a built-in cursor token we override. A "preset" (built-in or a
-// user-saved one) maps roles to a catalog art; a per-role "override" wins over
+// user-saved one) maps roles to a catalogue art; a per-role "override" wins over
 // the preset; a per-role "scale" (falling back to a global default) sizes it.
 
 import {
@@ -249,7 +249,7 @@ function activeMap(config: Config): Partial<Record<CursorRole, string>> {
 }
 
 // ── Resolution ─────────────────────────────────────────────────────────────────
-/** The art a role resolves to: "system", a catalog art key, or "custom". */
+/** The art a role resolves to: "system", a catalogue art key, or "custom". */
 export function resolvedChoice(role: CursorRole, config: Config): "system" | "custom" | ArtKey {
   const override = config.overrides[role];
   if (override && override !== "preset") return override;
